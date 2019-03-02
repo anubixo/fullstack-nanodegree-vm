@@ -3,22 +3,24 @@
 import datetime
 import psycopg2
 
-conn = psycopg2.connect("dbname=forum")
-cur = conn.cursor()
-
-
-
 POSTS = [("This is the first post.", datetime.datetime.now())]
 
 def get_posts():
   """Return all posts from the 'database', most recent first."""
-  cur.execute("select * from posts")
-  POSTS = cur.fetchall()
+  db = psycopg2.connect(database='forum')
+  c = db.cursor()
+  c.execute("select * from posts")
+  POSTS = c.fetchall()
+  c.close()
+  db.close()
   return reversed(POSTS)
 
 def add_post(content):
   """Add a post to the 'database' with the current timestamp."""
-  cur.execute("insert into posts (content) values (%s)", content)
+  db = psycopg2.connect(database='forum')
+  c = db.cursor()
+  c.execute("insert into posts values ('%s')" % content)
+  db.commit()
+  db.close()
 
-cur.close()
-conn.close()
+
