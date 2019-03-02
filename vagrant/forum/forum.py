@@ -5,7 +5,7 @@
 from flask import Flask, request, redirect, url_for
 
 from forumdb import get_posts, add_post
-
+import psycopg2
 app = Flask(__name__)
 
 # HTML template for the forum page
