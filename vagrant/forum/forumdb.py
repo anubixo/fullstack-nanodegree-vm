@@ -1,6 +1,12 @@
 # "Database code" for the DB Forum.
 
 import datetime
+import psycopg2
+
+conn = psycopg2.connect("dbname=forum")
+cur = conn.cursor()
+
+
 
 POSTS = [("This is the first post.", datetime.datetime.now())]
 
